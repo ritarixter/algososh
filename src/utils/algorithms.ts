@@ -21,7 +21,7 @@ export const setDelay = (delay: number = 1000): Promise<null> => {
 };
 
 export const swap = (
-  arr: (string | number)[],
+  arr: any[],
   index1: number,
   index2: number
 ) => {

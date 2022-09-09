@@ -6,10 +6,33 @@ import { Button } from "../../components/ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../../components/ui/column/column";
 import { swap } from "../../utils/algorithms";
+import { ElementStates } from "../../types/element-states";
+import { IArrChar } from "../../types/string";
 
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<number[]>([]);
-  const [bool,setBool] = useState<boolean>(true)
+  const [bool, setBool] = useState<boolean>(true);
+
+  const selectionSort = (arr: any[], minToMax: boolean) => {
+    let n = arr.length;
+
+    for (let i = 0; i < n; i++) {
+      let min = i;
+      for (let j = i; j < n; j++) {
+        if (minToMax ? arr[j] < arr[min] : arr[j] > arr[min]) {
+          min = j;
+        }
+      }
+      if (min != i) {
+        swap(arr, i, min);
+        /*let tmp = arr[i]; 
+             arr[i] = arr[min];
+             arr[min] = tmp;      */
+      }
+    }
+    return arr;
+  };
+
   const randomArr = () => {
     let arr: number[] = [];
     const max = 100;
@@ -27,7 +50,7 @@ export const SortingPage: React.FC = () => {
     return arr;
   };
 
-  const bubbleSort = (arr: number[], minToMax: boolean) => {
+  const bubbleSort = (arr: any[], minToMax: boolean) => {
     const { length } = arr;
     for (let i = 0; i < length - 1; i++) {
       for (let j = i + 1; j < length; j++) {
@@ -39,19 +62,50 @@ export const SortingPage: React.FC = () => {
     return arr;
   };
 
+  const onClickButton = (minToMax: boolean) => {
+    let newArr: IArrChar[] = [];
+    arr.forEach((el:any) => {
+      newArr.push({ ...el, elState: ElementStates.Default });
+    });
+
+    console.log(newArr[0])
+
+    if (bool) {
+      setArr([...bubbleSort(newArr, minToMax)]);
+    } else {
+      setArr([...selectionSort(newArr, minToMax)]);
+    }
+  };
+
   return (
     <SolutionLayout title="Сортировка массива">
       <section className={styles.container}>
         <div className={styles.header}>
-          <RadioInput label="Выбор" extraClass="mr-20" checked={bool} name="radio" onChange={()=>{setBool(true)}}/>
-          <RadioInput label="Пузырек" extraClass="mr-20"  checked={!bool} name="radio" onChange={()=>{setBool(false)}}/>
+          <RadioInput
+            label="Выбор"
+            extraClass="mr-20"
+            checked={bool}
+            name="radio"
+            onChange={() => {
+              setBool(true);
+            }}
+          />
+          <RadioInput
+            label="Пузырек"
+            extraClass="mr-20"
+            checked={!bool}
+            name="radio"
+            onChange={() => {
+              setBool(false);
+            }}
+          />
           <Button
             disabled={!arr.length}
             text="По возрастанию"
             sorting={Direction.Ascending}
             extraClass="ml-6 mr-6"
             onClick={() => {
-              setArr([...bubbleSort(arr, false)]);
+              onClickButton(false)
             }}
           />
           <Button
@@ -59,7 +113,7 @@ export const SortingPage: React.FC = () => {
             text="По убыванию"
             sorting={Direction.Descending}
             onClick={() => {
-              setArr([...bubbleSort(arr, true)]);
+              onClickButton(true)
             }}
           />
           <div className={styles.button}>

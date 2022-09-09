@@ -59,7 +59,6 @@ export const StringComponent: React.FC = () => {
     inputValue.split("").forEach((el:any) => {
       newArrChar.push({ ...el, elState: ElementStates.Default });
     });
-    console.log(newArrChar);
 
     //Показываем строку
     if (string) {
