@@ -12,6 +12,8 @@ import { IArrChar } from "../../types/string";
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<number[]>([]);
   const [bool, setBool] = useState<boolean>(true);
+  const [loader, setLoader] = useState<boolean>(false)
+  const [massiveArr, setmassiveArr]=useState<any[]>([])
 
   const selectionSort = (arr: any[], minToMax: boolean) => {
     let n = arr.length;
@@ -19,22 +21,26 @@ export const SortingPage: React.FC = () => {
     for (let i = 0; i < n; i++) {
       let min = i;
       for (let j = i; j < n; j++) {
-        if (minToMax ? arr[j] < arr[min] : arr[j] > arr[min]) {
+        if (
+          minToMax
+            ? arr[j].number > arr[min].number
+            : arr[j].number < arr[min].number
+        ) {
           min = j;
         }
       }
       if (min != i) {
-        swap(arr, i, min);
-        /*let tmp = arr[i]; 
-             arr[i] = arr[min];
-             arr[min] = tmp;      */
+        //swap(arr, i, min);
+        let tmp = arr[i].number;
+        arr[i].number = arr[min].number;
+        arr[min].number = tmp;
       }
     }
     return arr;
   };
 
   const randomArr = () => {
-    let arr: number[] = [];
+    let arr: any[] = [];
     const max = 100;
     const min = 0;
     const minLength = 3;
@@ -44,7 +50,7 @@ export const SortingPage: React.FC = () => {
       i < Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
       i++
     ) {
-      arr.push(Math.floor(Math.random() * (max - min + 1)) + min);
+      arr.push({ number: Math.floor(Math.random() * (max - min + 1)) + min });
     }
 
     return arr;
@@ -53,9 +59,17 @@ export const SortingPage: React.FC = () => {
   const bubbleSort = (arr: any[], minToMax: boolean) => {
     const { length } = arr;
     for (let i = 0; i < length - 1; i++) {
+      console.log(arr)
       for (let j = i + 1; j < length; j++) {
-        if (minToMax ? arr[i] < arr[j] : arr[i] > arr[j]) {
-          swap(arr, j, i);
+        if (
+          minToMax
+            ? arr[i].number < arr[j].number
+            : arr[i].number > arr[j].number
+        ) {
+
+         let tmp = arr[i].number;
+         arr[i].number = arr[j].number;
+         arr[j].number = tmp; 
         }
       }
     }
@@ -63,16 +77,46 @@ export const SortingPage: React.FC = () => {
   };
 
   const onClickButton = (minToMax: boolean) => {
-    let newArr: IArrChar[] = [];
-    arr.forEach((el:any) => {
+    setLoader(true)
+    let newArr: any[] = [];
+    arr.forEach((el: any) => {
       newArr.push({ ...el, elState: ElementStates.Default });
     });
+ 
+    if (!bool) {
+      
+      let i = 0
+      const { length } = newArr;
+      let recursion = setTimeout(function tick() {
+        newArr[i].elState = ElementStates.Changing
+       
+        console.log(newArr[i])
+        for (let j = i + 1; j < length; j++) {
+        
+          if (
+            minToMax
+              ? newArr[i].number < newArr[j].number
+              : newArr[i].number > newArr[j].number
+          ) {
+           let tmp = newArr[i].number;
+           newArr[i].number = newArr[j].number;
+           newArr[j].number = tmp; 
+       
+           newArr[i].elState = ElementStates.Modified
+  
+          }
+          
+        }
+        setArr([...newArr])
+        i++  
+        if (i < length-1) {
+            recursion = setTimeout(tick, 1000)
+        } else {setLoader(false)}
+    }, 1000)
 
-    console.log(newArr[0])
-
-    if (bool) {
-      setArr([...bubbleSort(newArr, minToMax)]);
+     // setArr([...bubbleSort(newArr, minToMax)]);
     } else {
+      setLoader(false)
       setArr([...selectionSort(newArr, minToMax)]);
     }
   };
@@ -89,6 +133,7 @@ export const SortingPage: React.FC = () => {
             onChange={() => {
               setBool(true);
             }}
+            disabled={loader}
           />
           <RadioInput
             label="Пузырек"
@@ -98,22 +143,26 @@ export const SortingPage: React.FC = () => {
             onChange={() => {
               setBool(false);
             }}
+            disabled={loader}
           />
           <Button
+           isLoader={loader}
             disabled={!arr.length}
             text="По возрастанию"
             sorting={Direction.Ascending}
             extraClass="ml-6 mr-6"
             onClick={() => {
-              onClickButton(false)
+              onClickButton(false);
             }}
+            
           />
           <Button
+          isLoader={loader}
             disabled={!arr.length}
             text="По убыванию"
             sorting={Direction.Descending}
             onClick={() => {
-              onClickButton(true)
+              onClickButton(true);
             }}
           />
           <div className={styles.button}>
@@ -122,13 +171,14 @@ export const SortingPage: React.FC = () => {
               onClick={() => {
                 setArr(randomArr());
               }}
+              disabled={loader}
             />
           </div>
         </div>
         <ul className={styles.array_container}>
-          {arr.map((number: number, index: React.Key) => (
+          {arr.map((el: any, index: React.Key) => (
             <li className={styles.array_list} key={index}>
-              <Column index={number} />
+              <Column index={el.number} state={el.elState}/>
             </li>
           ))}
         </ul>
