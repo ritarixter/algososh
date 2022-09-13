@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  max-width: 829px;
+
+}
+
+.input {
+  width: 377px;
+  margin-right: 12px;
+}

@@ -5,13 +5,13 @@ import { Button } from "../../components/ui/button/button";
 import styles from "./string.module.css";
 import { Circle } from "../../components/ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import { IArrChar } from "../../types/string";
+import { IArrChar } from "../../types/types";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setinputValue] = useState<string>("");
   const [expand, setExpand] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
-  const [string, setString] = useState<any>([]);
+  const [string, setString] = useState<IArrChar[]>([]);
 
   const reverseArr = (arr: IArrChar[]) => {
     let stringArr: IArrChar[][] = []; // двумерный массив шагов в алгоритме
@@ -113,7 +113,7 @@ export const StringComponent: React.FC = () => {
       {expand && (
         <ul className={styles.circles}>
           {string &&
-            string.map((char: IArrChar, index: React.Key | null | undefined) => (
+            string.map((char: IArrChar, index: React.Key) => (
               <li key={index} className={styles.circle}>
                 <Circle letter={char[0]} state={char.elState} />
               </li>

@@ -1,123 +1,129 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
 import styles from "./sorting-page.module.css";
 import { RadioInput } from "../../components/ui/radio-input/radio-input";
 import { Button } from "../../components/ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../../components/ui/column/column";
-import { swap } from "../../utils/algorithms";
+import { swap } from "../../utils/utils";
 import { ElementStates } from "../../types/element-states";
-import { IArrChar } from "../../types/string";
+import { IArrSorting } from "../../types/types";
+import { randomArr } from "../../utils/utils";
 
 export const SortingPage: React.FC = () => {
-  const [arr, setArr] = useState<number[]>([]);
+  const [arr, setArr] = useState<IArrSorting[]>([]);
   const [bool, setBool] = useState<boolean>(true);
-  const [loader, setLoader] = useState<boolean>(false)
-  const [massiveArr, setmassiveArr]=useState<any[]>([])
+  const [loaderDescending, setLoaderDescending] = useState<boolean>(false);
+  const [loaderAscending, setLoaderAscending] = useState<boolean>(false);
+  
 
-  const selectionSort = (arr: any[], minToMax: boolean) => {
-    let n = arr.length;
+  const selectionSort = (newArr: IArrSorting[], minToMax: boolean) => {
+    let n = newArr.length;
+    let i = 0;
 
-    for (let i = 0; i < n; i++) {
+    const recursion = () => {
       let min = i;
-      for (let j = i; j < n; j++) {
-        if (
-          minToMax
-            ? arr[j].number > arr[min].number
-            : arr[j].number < arr[min].number
-        ) {
-          min = j;
+      let j = i + 1;
+
+      let interval = setInterval(() => {
+        if (n <= j) {
+          newArr[j - 1].elState = ElementStates.Default;
+          newArr[i].elState = ElementStates.Modified;
+          if (min != i) {
+            swap(newArr, i, min);
+            setArr([...newArr]);
+          }
+          clearInterval(interval);
+          i++;
+          recursion();
+        } else {
+          newArr[j - 1].elState = ElementStates.Default;
+          newArr[i].elState = ElementStates.Changing;
+          newArr[j].elState = ElementStates.Changing;
+          setArr([...newArr]);
+          if (
+            minToMax
+              ? newArr[j].number > newArr[min].number
+              : newArr[j].number < newArr[min].number
+          ) {
+            min = j;
+          }
+          j++;
         }
+      }, 1000);
+
+      if (i >= n) {
+        clearInterval(interval);
+        setLoaderDescending(false);
+        setLoaderAscending(false);
       }
-      if (min != i) {
-        //swap(arr, i, min);
-        let tmp = arr[i].number;
-        arr[i].number = arr[min].number;
-        arr[min].number = tmp;
-      }
-    }
-    return arr;
+    };
+    recursion();
   };
 
-  const randomArr = () => {
-    let arr: any[] = [];
-    const max = 100;
-    const min = 0;
-    const minLength = 3;
-    const maxLength = 17;
-    for (
-      let i = 0;
-      i < Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-      i++
-    ) {
-      arr.push({ number: Math.floor(Math.random() * (max - min + 1)) + min });
-    }
+  const bubbleSort = (newArr: IArrSorting[], minToMax: boolean) => {
+    let i = -1;
+    const { length } = newArr;
+    const recursion = () => {
+      i++;
+      let j = i + 1;
+      let interval = setInterval(() => {
+        if (j >= length) {
+          clearInterval(interval);
+          newArr[i].elState = ElementStates.Modified;
+          newArr[j - 1].elState = ElementStates.Default;
+          newArr[j - 2].elState = ElementStates.Default;
+          recursion();
+        } else {
+          if (j >= 2 && newArr[j - 2].elState != ElementStates.Modified) {
+            newArr[j - 2].elState = ElementStates.Default;
+          }
 
-    return arr;
-  };
+          newArr[j].elState = ElementStates.Changing;
+          newArr[j - 1].elState = ElementStates.Changing;
 
-  const bubbleSort = (arr: any[], minToMax: boolean) => {
-    const { length } = arr;
-    for (let i = 0; i < length - 1; i++) {
-      console.log(arr)
-      for (let j = i + 1; j < length; j++) {
-        if (
-          minToMax
-            ? arr[i].number < arr[j].number
-            : arr[i].number > arr[j].number
-        ) {
-
-         let tmp = arr[i].number;
-         arr[i].number = arr[j].number;
-         arr[j].number = tmp; 
-        }
-      }
-    }
-    return arr;
-  };
-
-  const onClickButton = (minToMax: boolean) => {
-    setLoader(true)
-    let newArr: any[] = [];
-    arr.forEach((el: any) => {
-      newArr.push({ ...el, elState: ElementStates.Default });
-    });
- 
-    if (!bool) {
-      
-      let i = 0
-      const { length } = newArr;
-      let recursion = setTimeout(function tick() {
-        newArr[i].elState = ElementStates.Changing
-       
-        console.log(newArr[i])
-        for (let j = i + 1; j < length; j++) {
-        
           if (
             minToMax
               ? newArr[i].number < newArr[j].number
               : newArr[i].number > newArr[j].number
           ) {
-           let tmp = newArr[i].number;
-           newArr[i].number = newArr[j].number;
-           newArr[j].number = tmp; 
-       
-           newArr[i].elState = ElementStates.Modified
-  
+            swap(newArr, i, j);
           }
-          
+          j++;
+          setArr([...newArr]);
         }
-        setArr([...newArr])
-        i++  
-        if (i < length-1) {
-            recursion = setTimeout(tick, 1000)
-        } else {setLoader(false)}
-    }, 1000)
+      }, 1000);
 
-     // setArr([...bubbleSort(newArr, minToMax)]);
+      if (i >= length - 1) {
+        clearInterval(interval);
+        newArr.forEach((el) => {
+          el.elState = ElementStates.Modified;
+        });
+        setArr([...newArr]);
+        setLoaderDescending(false);
+        setLoaderAscending(false);
+      }
+    };
+    recursion();
+  };
+
+  const onClickButton = (maxToMin: boolean) => {
+    if(maxToMin){
+      setLoaderDescending(true)
+    }
+    else{
+      setLoaderAscending(true);
+    }
+
+    let newArr: IArrSorting[] = [];
+    arr.forEach((el) => {
+      newArr.push({ ...el, elState: ElementStates.Default });
+    });
+
+    if (!bool) {
+      bubbleSort(newArr, maxToMin);
     } else {
-      setLoader(false)
-      setArr([...selectionSort(newArr, minToMax)]);
+      selectionSort(newArr, maxToMin);
     }
   };
 
@@ -133,7 +139,7 @@ export const SortingPage: React.FC = () => {
             onChange={() => {
               setBool(true);
             }}
-            disabled={loader}
+            disabled={loaderDescending || loaderAscending}
           />
           <RadioInput
             label="Пузырек"
@@ -143,22 +149,21 @@ export const SortingPage: React.FC = () => {
             onChange={() => {
               setBool(false);
             }}
-            disabled={loader}
+            disabled={loaderDescending || loaderAscending}
           />
           <Button
-           isLoader={loader}
-            disabled={!arr.length}
+            isLoader={loaderAscending}
+            disabled={!arr.length || loaderDescending}
             text="По возрастанию"
             sorting={Direction.Ascending}
             extraClass="ml-6 mr-6"
             onClick={() => {
               onClickButton(false);
             }}
-            
           />
           <Button
-          isLoader={loader}
-            disabled={!arr.length}
+            isLoader={loaderDescending}
+            disabled={!arr.length || loaderAscending}
             text="По убыванию"
             sorting={Direction.Descending}
             onClick={() => {
@@ -171,14 +176,14 @@ export const SortingPage: React.FC = () => {
               onClick={() => {
                 setArr(randomArr());
               }}
-              disabled={loader}
+              disabled={loaderDescending || loaderAscending}
             />
           </div>
         </div>
         <ul className={styles.array_container}>
-          {arr.map((el: any, index: React.Key) => (
+          {arr.map((el: IArrSorting, index: React.Key) => (
             <li className={styles.array_list} key={index}>
-              <Column index={el.number} state={el.elState}/>
+              <Column index={el.number} state={el.elState} />
             </li>
           ))}
         </ul>

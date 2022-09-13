@@ -3,13 +3,20 @@ import { Button } from "../../components/ui/button/button";
 import { Circle } from "../../components/ui/circle/circle";
 import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
-import { fib, setDelay } from "../../utils/algorithms";
 import styles from "./fibonacci-page.module.css";
 
 export const FibonacciPage: React.FC = () => {
   const [inputValue, setinputValue] = useState<number>(0);
   const [loader, setLoader] = useState<boolean>(false);
   const [arrFib, setArrFib] = useState<number[]>([]);
+
+    const fib = (n: number) => {
+    let arr: number[] = [0, 1];
+    for (let i = 2; i < n + 1; i++) {
+      arr.push(arr[i - 2] + arr[i - 1]);
+    }
+    return arr;
+  };
 
   const onSubmitForm = () => {
     setLoader(true);
