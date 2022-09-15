@@ -1,6 +1,8 @@
 import { ElementStates } from "./element-states";
 
-export interface IArrSorting {
+
+
+export interface IArr {
  number: number;
  elState?: ElementStates;
 }

@@ -7,17 +7,17 @@ import { Direction } from "../../types/direction";
 import { Column } from "../../components/ui/column/column";
 import { swap } from "../../utils/utils";
 import { ElementStates } from "../../types/element-states";
-import { IArrSorting } from "../../types/types";
+import { IArr } from "../../types/types";
 import { randomArr } from "../../utils/utils";
 
 export const SortingPage: React.FC = () => {
-  const [arr, setArr] = useState<IArrSorting[]>([]);
+  const [arr, setArr] = useState<IArr[]>([]);
   const [bool, setBool] = useState<boolean>(true);
   const [loaderDescending, setLoaderDescending] = useState<boolean>(false);
   const [loaderAscending, setLoaderAscending] = useState<boolean>(false);
   
 
-  const selectionSort = (newArr: IArrSorting[], minToMax: boolean) => {
+  const selectionSort = (newArr: IArr[], minToMax: boolean) => {
     let n = newArr.length;
     let i = 0;
 
@@ -61,7 +61,7 @@ export const SortingPage: React.FC = () => {
     recursion();
   };
 
-  const bubbleSort = (newArr: IArrSorting[], minToMax: boolean) => {
+  const bubbleSort = (newArr: IArr[], minToMax: boolean) => {
     let i = -1;
     const { length } = newArr;
     const recursion = () => {
@@ -115,7 +115,7 @@ export const SortingPage: React.FC = () => {
       setLoaderAscending(true);
     }
 
-    let newArr: IArrSorting[] = [];
+    let newArr: IArr[] = [];
     arr.forEach((el) => {
       newArr.push({ ...el, elState: ElementStates.Default });
     });
@@ -181,7 +181,7 @@ export const SortingPage: React.FC = () => {
           </div>
         </div>
         <ul className={styles.array_container}>
-          {arr.map((el: IArrSorting, index: React.Key) => (
+          {arr.map((el: IArr, index: React.Key) => (
             <li className={styles.array_list} key={index}>
               <Column index={el.number} state={el.elState} />
             </li>

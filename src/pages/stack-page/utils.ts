@@ -7,7 +7,7 @@ export interface IStack<T> {
 }
 
 export class Stack<T> implements IStack<T> {
-  private container: T[] = [];
+  public container: T[] = [];
 
   push = (item: T): void => {
     this.container.push(item);
@@ -27,6 +27,6 @@ export class Stack<T> implements IStack<T> {
   getSize = () => this.container.length;
 
   clear = (): void => {
-    this.container = []; //this.container.length = 0
+    this.container = []; 
   };
 }
