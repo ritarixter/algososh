@@ -3,10 +3,11 @@ import { Button } from "../../components/ui/button/button";
 import { Circle } from "../../components/ui/circle/circle";
 import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { IArr } from "../../types/types";
 import styles from "./stack-page.module.css";
-import { Stack } from "./utils";
+import { Stack } from "./stack";
 
 export const StackPage: React.FC = () => {
   const [stackArr, setStackArr] = useState<IArr[]>([]);
@@ -18,13 +19,11 @@ export const StackPage: React.FC = () => {
     setLoader(true);
     setinputValue("");
     arr.push({ number: Number(inputValue), elState: ElementStates.Changing });
-    console.log(arr);
     setStackArr([...arr.container]);
     setTimeout(() => {
-
       arr.peak().elState = ElementStates.Default 
       setLoader(false);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   const deleteValue = async () => {
@@ -35,7 +34,7 @@ export const StackPage: React.FC = () => {
       arr.pop();
       setStackArr([...arr.container]);
       setLoader(false);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   return (

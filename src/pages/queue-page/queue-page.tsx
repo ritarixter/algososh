@@ -1,29 +1,71 @@
-import React, { FormEvent, useMemo, useState } from "react";
+import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import { Button } from "../../components/ui/button/button";
 import { Circle } from "../../components/ui/circle/circle";
 import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { IArr } from "../../types/types";
+import { IArr, IQueue } from "../../types/types";
 import styles from "../stack-page/stack-page.module.css";
-import { Queue } from "./utils";
+import { Queue } from "./quene";
 
 export const QueuePage: React.FC = () => {
-  const [queueArr, setQueueArr] = useState<any[]>([]);
+  const maxLength = 7;
+  const initialState: (IQueue | any)[] = Array.from(
+    { length: maxLength },
+    () => ({
+      number: "",
+      elState: ElementStates.Default,
+    })
+  );
+
+  const [queueArr, setQueueArr] = useState<IQueue[]>(initialState);
   const [inputValue, setinputValue] = useState<string>("");
-  const [loader, setLoader] = useState<boolean>(false);
+  const [loaderAdd, setLoaderAdd] = useState<boolean>(false);
+  const [loaderDelete, setLoaderDelete] = useState<boolean>(false);
 
-  const arr = useMemo(() => new Queue<IArr | any>(6), []);
+  const queue = useMemo(() => new Queue<IQueue | any>(maxLength), []);
 
-  const addValue = async () => {
-    arr.enqueue({ number: Number(inputValue), elState: ElementStates.Default });
-    setQueueArr([...queueArr ,arr.container]);
-    console.log(arr)
-    console.log(queueArr);
-  
+  const addValue = () => {
+    if (queue.getSize() < 7) {
+      setLoaderAdd(true);
+      const array = [...queueArr];
+      const tailIndex = queue.getTailIndex();
+      array[tailIndex].elState = ElementStates.Changing;
+      setQueueArr([...array]);
+      setTimeout(() => {
+        queue.enqueue(inputValue);
+        array[tailIndex].number = inputValue;
+        setQueueArr([...array]);
+        setinputValue("");
+        setTimeout(() => {
+          array[tailIndex].elState = ElementStates.Default;
+          setQueueArr([...array]);
+          setLoaderAdd(false);
+        }, SHORT_DELAY_IN_MS);
+      }, SHORT_DELAY_IN_MS);
+    } else {
+      throw new Error("Maximum length exceeded");
+    }
   };
 
-  const deleteValue = async () => {};
+  const deleteValue = () => {
+    setLoaderDelete(true);
+    const array = [...queueArr];
+    const headIndex = queue.getHeadIndex();
+    array[headIndex].elState = ElementStates.Changing;
+    setQueueArr([...array]);
+    setTimeout(() => {
+      queue.dequeue();
+      array[headIndex].number = "";
+      setQueueArr([...array]);
+      setTimeout(() => {
+        array[headIndex].elState = ElementStates.Default;
+        setQueueArr([...array]);
+        setLoaderDelete(false);
+      }, SHORT_DELAY_IN_MS);
+    }, SHORT_DELAY_IN_MS);
+  };
 
   return (
     <SolutionLayout title="Очередь">
@@ -43,35 +85,45 @@ export const QueuePage: React.FC = () => {
         <Button
           text="Добавить"
           extraClass={`${inputValue && "text_color_secondary"}`}
-          disabled={!inputValue}
-          isLoader={loader}
+          disabled={!inputValue || loaderDelete}
+          isLoader={loaderAdd}
           onClick={addValue}
         />
         <Button
           text="Удалить"
           extraClass="ml-6"
-          isLoader={loader}
-          disabled={queueArr.length === 0}
+          isLoader={loaderDelete}
+          disabled={queueArr.length === 0 || loaderAdd}
+          onClick={deleteValue}
         />
         <Button
           text="Очистить"
           extraClass="ml-40"
-          disabled={loader}
+          disabled={loaderAdd || loaderDelete}
           onClick={() => {
-            arr.clear();
-            setQueueArr([...arr.container]);
+            queue.clear();
+            setQueueArr(initialState);
           }}
         />
       </form>
 
       <ul className={styles.circles}>
-        {queueArr.map((stackEl: IArr, index: React.Key) => (
+        {queueArr.map((stackEl: IQueue, index: React.Key | number) => (
           <li key={index} className={styles.circle}>
             <Circle
-              //letter={stackEl.number ? String(stackEl.number) : undefined}
-              tail={String(index)}
-             // state={stackEl.elState}
-              //head={stackEl === stackArr[stackArr.length - 1] ? "top" : null}
+              letter={stackEl.number != "" ? String(stackEl.number) : ""}
+              index={Number(index)}
+              state={stackEl.elState}
+              head={
+                index === queue.getHeadIndex() && stackEl.number != ""
+                  ? "head"
+                  : null
+              }
+              tail={
+                index === queue.getTailIndex() - 1 && stackEl.number != ""
+                  ? "tail"
+                  : ""
+              }
             />
           </li>
         ))}

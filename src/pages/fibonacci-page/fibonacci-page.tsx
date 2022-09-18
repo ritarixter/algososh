@@ -3,6 +3,7 @@ import { Button } from "../../components/ui/button/button";
 import { Circle } from "../../components/ui/circle/circle";
 import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import styles from "./fibonacci-page.module.css";
 
 export const FibonacciPage: React.FC = () => {
@@ -32,7 +33,7 @@ export const FibonacciPage: React.FC = () => {
       arr.push(arrFibonac[index]);
       setArrFib([...arr]);
       index++;
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   };
 
   return (

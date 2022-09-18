@@ -9,6 +9,7 @@ import { swap } from "../../utils/utils";
 import { ElementStates } from "../../types/element-states";
 import { IArr } from "../../types/types";
 import { randomArr } from "../../utils/utils";
+import { DELAY_IN_MS } from "../../constants/delays";
 
 export const SortingPage: React.FC = () => {
   const [arr, setArr] = useState<IArr[]>([]);
@@ -50,7 +51,7 @@ export const SortingPage: React.FC = () => {
           }
           j++;
         }
-      }, 1000);
+      }, DELAY_IN_MS);
 
       if (i >= n) {
         clearInterval(interval);
@@ -92,7 +93,7 @@ export const SortingPage: React.FC = () => {
           j++;
           setArr([...newArr]);
         }
-      }, 1000);
+      }, DELAY_IN_MS);
 
       if (i >= length - 1) {
         clearInterval(interval);
