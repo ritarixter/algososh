@@ -11,7 +11,7 @@ import { Queue } from "./quene";
 
 export const QueuePage: React.FC = () => {
   const maxLength = 7;
-  const initialState: (IQueue | any)[] = Array.from(
+  const initialState: IQueue[] = Array.from(
     { length: maxLength },
     () => ({
       number: "",

@@ -14,14 +14,14 @@ export const StackPage: React.FC = () => {
   const [inputValue, setinputValue] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
 
-  const arr = useMemo(() => new Stack<IArr  | any>(), []); 
+  const arr = useMemo(() => new Stack<IArr | any>(), []);
   const addValue = async () => {
     setLoader(true);
     setinputValue("");
-    arr.push({ number: Number(inputValue), elState: ElementStates.Changing });
+    arr.push({ number: inputValue, elState: ElementStates.Changing });
     setStackArr([...arr.container]);
     setTimeout(() => {
-      arr.peak().elState = ElementStates.Default 
+      arr.peak().elState = ElementStates.Default;
       setLoader(false);
     }, SHORT_DELAY_IN_MS);
   };

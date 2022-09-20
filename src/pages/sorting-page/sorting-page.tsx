@@ -16,7 +16,6 @@ export const SortingPage: React.FC = () => {
   const [bool, setBool] = useState<boolean>(true);
   const [loaderDescending, setLoaderDescending] = useState<boolean>(false);
   const [loaderAscending, setLoaderAscending] = useState<boolean>(false);
-  
 
   const selectionSort = (newArr: IArr[], minToMax: boolean) => {
     let n = newArr.length;
@@ -109,10 +108,9 @@ export const SortingPage: React.FC = () => {
   };
 
   const onClickButton = (maxToMin: boolean) => {
-    if(maxToMin){
-      setLoaderDescending(true)
-    }
-    else{
+    if (maxToMin) {
+      setLoaderDescending(true);
+    } else {
       setLoaderAscending(true);
     }
 

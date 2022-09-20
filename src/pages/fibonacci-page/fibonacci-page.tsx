@@ -11,7 +11,7 @@ export const FibonacciPage: React.FC = () => {
   const [loader, setLoader] = useState<boolean>(false);
   const [arrFib, setArrFib] = useState<number[]>([]);
 
-    const fib = (n: number) => {
+    const getFibonacciNumbers = (n: number) => {
     let arr: number[] = [0, 1];
     for (let i = 2; i < n + 1; i++) {
       arr.push(arr[i - 2] + arr[i - 1]);
@@ -21,7 +21,7 @@ export const FibonacciPage: React.FC = () => {
 
   const onSubmitForm = () => {
     setLoader(true);
-    let arrFibonac: number[] = fib(inputValue);
+    let arrFibonac: number[] = getFibonacciNumbers(inputValue);
     let index = 0;
     let arr: number[] = [];
 

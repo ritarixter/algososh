@@ -14,7 +14,7 @@ export const StringComponent: React.FC = () => {
   const [string, setString] = useState<IArrChar[]>([]);
 
   const reverseArr = (arr: IArrChar[]) => {
-    let stringArr: IArrChar[][] = []; // двумерный массив шагов в алгоритме
+    let stringArr: IArrChar[][] = [];
     let start = 0;
     let end = arr.length - 1;
     let firtsIteration = 0;
@@ -22,56 +22,45 @@ export const StringComponent: React.FC = () => {
 
     while (start < end) {
       if (firtsIteration == 0) {
-        //Создаем первую строку
         arr[start] = { ...arr[start], elState: ElementStates.Changing };
         arr[end] = { ...arr[end], elState: ElementStates.Changing };
         arr1.push([...arr]);
         firtsIteration++;
       } else {
-        //Меняем след. элементы на state Changing, обязательно первым в цикле!
         arr[start + 1] = { ...arr[start + 1], elState: ElementStates.Changing };
         arr[end - 1] = { ...arr[end - 1], elState: ElementStates.Changing };
         let tmp;
         tmp = arr[start];
-        //Делаем перестановку элементов и меняем state на Modified
         arr[start] = { ...arr[end], elState: ElementStates.Modified };
         arr[end] = { ...tmp, elState: ElementStates.Modified };
-        //Добавляем перестановленные элементы со state
         stringArr.push([...arr]);
         start++;
         end--;
       }
     }
-    //Когда чисел нечётное количество, то самостоятельно меняем в конце state центрального числа
     stringArr[start - 1][start] = {
       ...stringArr[start - 1][start],
       elState: ElementStates.Modified,
     };
-    //Добавляем первую строку, другие способы введут к странному поведеню алгоритма
     stringArr.unshift(...arr1);
     return stringArr;
   };
 
   const buttonExpandOnClick = () => {
     setLoader(true);
-    //Создаем новый массив со state Default
     let newArrChar: IArrChar[] = [];
-    inputValue.split("").forEach((el:any) => {
+    inputValue.split("").forEach((el: any) => {
       newArrChar.push({ ...el, elState: ElementStates.Default });
     });
 
-    //Показываем строку
     if (string) {
       setExpand(true);
     }
-    //Создаем двумерный массив всех шагов алгоритма
-    const stringArr = reverseArr(newArrChar);
 
-    //Показываем каждый шаг алгоритма с задержкой 1000мс
+    const stringArr = reverseArr(newArrChar);
     let step = 0;
     let interval = setInterval(() => {
       if (step >= stringArr.length - 1) {
-        //Удаляем интервал, после всех шагов
         clearInterval(interval);
         newArrChar = [];
         setLoader(false);

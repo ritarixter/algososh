@@ -5,6 +5,7 @@ interface IQueue<T> {
   getHeadIndex: () => number;
   getTailIndex: () => number;
   clear: () => void;
+  isEmpty: () => boolean;
 }
 
 export class Queue<T> implements IQueue<T> {
