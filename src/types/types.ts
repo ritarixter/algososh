@@ -16,7 +16,7 @@ export interface IQueue {
 }
 
 export interface IList {
-  number?: number;
+  number?: string;
   elState?: ElementStates;
-  isProgressing?: true;
+  isProgressing?: Boolean;
 }

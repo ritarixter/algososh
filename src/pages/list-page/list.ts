@@ -18,7 +18,7 @@ interface ILinkedList<T> {
   deleteHead: () => void;
   deleteByIndex: (index: number) => void;
   addByIndex: (element: T, index: number) => void;
-  toArray: () => any | IList;
+  toArray: () => IList[];
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
@@ -128,7 +128,7 @@ export class LinkedList<T> implements ILinkedList<T> {
   }
 
   toArray() {
-    const list: (T | any)[] = [];
+    const list: IList[] = [];
     let current;
     if (this.head === null) {
       return list;
@@ -136,14 +136,14 @@ export class LinkedList<T> implements ILinkedList<T> {
       current = this.head;
       while (current.next) {
         list.push({
-          number: current.value,
+          number: String(current.value),
           elState: ElementStates.Default,
           isProgressing: false,
         });
         current = current.next;
       }
       list.push({
-        number: current.value,
+        number: String(current.value),
         elState: ElementStates.Default,
         isProgressing: false,
       });

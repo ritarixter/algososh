@@ -24,7 +24,7 @@ export const QueuePage: React.FC = () => {
   const [loaderAdd, setLoaderAdd] = useState<boolean>(false);
   const [loaderDelete, setLoaderDelete] = useState<boolean>(false);
 
-  const queue = useMemo(() => new Queue<IQueue | any>(maxLength), []);
+  const queue = useMemo(() => new Queue<string>(maxLength), []);
 
   const addValue = () => {
     if (queue.getSize() < 7) {

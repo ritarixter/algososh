@@ -5,7 +5,7 @@ import { Input } from "../../components/ui/input/input";
 import { SolutionLayout } from "../../components/ui/solution-layout/solution-layout";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
-import { IArr } from "../../types/types";
+import { IArr, IArrChar, IQueue } from "../../types/types";
 import styles from "./stack-page.module.css";
 import { Stack } from "./stack";
 
@@ -14,7 +14,7 @@ export const StackPage: React.FC = () => {
   const [inputValue, setinputValue] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
 
-  const arr = useMemo(() => new Stack<IArr | any>(), []);
+  const arr = useMemo(() => new Stack<IArr|any>(), []); // Если убрать any пишет: Возможно arr.peak() равен null, не знаю как это убарть
   const addValue = async () => {
     setLoader(true);
     setinputValue("");

@@ -24,7 +24,7 @@ export const ListPage: React.FC = () => {
   const [loaderDeleteByIndex, setLoaderDeleteByIndex] =
     useState<boolean>(false);
 
-  const list = useMemo(() => new LinkedList<any>(), []);
+  const list = useMemo(() => new LinkedList<string>(), []);
 
   useEffect(() => {
     initialState.forEach((el) => {
@@ -155,7 +155,7 @@ export const ListPage: React.FC = () => {
   const deleteToHead = () => {
     setLoaderDeleteHead(true);
     let elements = list.toArray();
-    setValueSmallCircle(elements[0].number);
+    setValueSmallCircle(String(elements[0].number));
     elements[0].number = "";
     elements[0].isProgressing = true;
     setArr([...elements]);
@@ -172,7 +172,7 @@ export const ListPage: React.FC = () => {
   const deleteToTail = () => {
     setLoaderDeleteTail(true);
     let elements = list.toArray();
-    setValueSmallCircle(elements[list.getSize() - 1].number);
+    setValueSmallCircle(String(elements[list.getSize() - 1].number));
     elements[list.getSize() - 1].number = "";
     elements[list.getSize() - 1].isProgressing = true;
     setArr([...elements]);
@@ -203,7 +203,7 @@ export const ListPage: React.FC = () => {
     let interval = setInterval(() => {
       if (step === Number(index) + 1) {
         clearInterval(interval);
-        setValueSmallCircle(elements[index].number);
+        setValueSmallCircle(String(elements[index].number));
         elements[index].isProgressing = true;
         elements[index].number = "";
         setArr([...elements]);

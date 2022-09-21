@@ -1,4 +1,6 @@
-export const swap = (arr: any[], index1: number, index2: number) => {
+import { IArr } from "../types/types";
+
+export const swap = (arr: IArr[], index1: number, index2: number) => {
   let tmp;
   tmp = arr[index1].number;
   arr[index1].number = arr[index2].number;

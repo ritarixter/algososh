@@ -6,6 +6,7 @@ import styles from "./string.module.css";
 import { Circle } from "../../components/ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { IArrChar } from "../../types/types";
+import { reverseArr } from "./string.utils";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setinputValue] = useState<string>("");
@@ -13,43 +14,10 @@ export const StringComponent: React.FC = () => {
   const [loader, setLoader] = useState<boolean>(false);
   const [string, setString] = useState<IArrChar[]>([]);
 
-  const reverseArr = (arr: IArrChar[]) => {
-    let stringArr: IArrChar[][] = [];
-    let start = 0;
-    let end = arr.length - 1;
-    let firtsIteration = 0;
-    let arr1: IArrChar[][] = [];
-
-    while (start < end) {
-      if (firtsIteration == 0) {
-        arr[start] = { ...arr[start], elState: ElementStates.Changing };
-        arr[end] = { ...arr[end], elState: ElementStates.Changing };
-        arr1.push([...arr]);
-        firtsIteration++;
-      } else {
-        arr[start + 1] = { ...arr[start + 1], elState: ElementStates.Changing };
-        arr[end - 1] = { ...arr[end - 1], elState: ElementStates.Changing };
-        let tmp;
-        tmp = arr[start];
-        arr[start] = { ...arr[end], elState: ElementStates.Modified };
-        arr[end] = { ...tmp, elState: ElementStates.Modified };
-        stringArr.push([...arr]);
-        start++;
-        end--;
-      }
-    }
-    stringArr[start - 1][start] = {
-      ...stringArr[start - 1][start],
-      elState: ElementStates.Modified,
-    };
-    stringArr.unshift(...arr1);
-    return stringArr;
-  };
-
   const buttonExpandOnClick = () => {
     setLoader(true);
     let newArrChar: IArrChar[] = [];
-    inputValue.split("").forEach((el: any) => {
+    inputValue.split("").forEach((el:{}) => {
       newArrChar.push({ ...el, elState: ElementStates.Default });
     });
 
