@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  max-width: 829px;
+
+}
+
+.input {
+  width: 377px;
+  margin-right: 12px;
+}
+
+.circles{
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  margin-top: 48px;
+  padding: 0;
+}
+
+.circle{
+  margin-left: 16px;
+}
+
+.circle:first-child {
+  margin-left: 0;
+}
