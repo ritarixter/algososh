@@ -68,7 +68,7 @@ export const StringComponent: React.FC = () => {
       </form>
 
       {expand && (
-        <ul className={styles.circles}>
+        <ul className={styles.circles} data-testid="cyrcle">
           {string &&
             string.map((char: IArrChar, index: React.Key) => (
               <li key={index} className={styles.circle}>
