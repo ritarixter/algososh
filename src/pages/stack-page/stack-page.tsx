@@ -14,7 +14,7 @@ export const StackPage: React.FC = () => {
   const [inputValue, setinputValue] = useState<string>("");
   const [loader, setLoader] = useState<boolean>(false);
 
-  const arr = useMemo(() => new Stack<IArr|any>(), []); // Если убрать any пишет: Возможно arr.peak() равен null, не знаю как это убарть
+  const arr = useMemo(() => new Stack<IArr|any>(), []);
   const addValue = async () => {
     setLoader(true);
     setinputValue("");
@@ -58,6 +58,7 @@ export const StackPage: React.FC = () => {
           disabled={!inputValue}
           isLoader={loader}
           onClick={addValue}
+          data-testid="addButton"
         />
         <Button
           text="Удалить"

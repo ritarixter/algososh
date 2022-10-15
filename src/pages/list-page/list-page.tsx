@@ -228,6 +228,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.container_line}>
           <div className={styles.input}>
             <Input
+            data-testid="inputText"
               maxLength={4}
               isLimitText={true}
               type="text"
@@ -310,6 +311,7 @@ export const ListPage: React.FC = () => {
         <div className={styles.container_line}>
           <div className={styles.input}>
             <Input
+              data-testid="inputIndex"
               min={0}
               max={list.getSize() != 0 ? list.getSize() - 1 : 0}
               type="number"
@@ -363,10 +365,11 @@ export const ListPage: React.FC = () => {
 
       <ul className={styles.circles}>
         {arr.map((el: IList, index: React.Key) => (
-          <li key={index} className={styles.circle}>
+          <li key={index} className={styles.circle} data-testid="item">
             <Circle
               letter={String(el.number)}
               state={el.elState}
+             
               head={
                 el.isProgressing ? (
                   <Circle
