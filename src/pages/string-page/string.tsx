@@ -24,7 +24,6 @@ export const StringComponent: React.FC = () => {
     if (string) {
       setExpand(true);
     }
-
     const stringArr = reverseArr(newArrChar);
     let step = 0;
     let interval = setInterval(() => {
