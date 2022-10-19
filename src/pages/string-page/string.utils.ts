@@ -8,6 +8,14 @@ export const reverseArr = (arr: IArrChar[]) => {
   let firtsIteration = 0;
   let arr1: IArrChar[][] = [];
 
+  if(arr.length === 1){
+    arr[start] = { ...arr[start], elState: ElementStates.Changing };
+    stringArr.push([...arr])
+    arr[start] = { ...arr[start], elState: ElementStates.Modified };
+    stringArr.push([...arr])
+    return stringArr
+  }
+
   while (start < end) {
     if (firtsIteration == 0) {
       arr[start] = { ...arr[start], elState: ElementStates.Changing };

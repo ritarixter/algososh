@@ -1,89 +1,101 @@
-describe('test string', function() {
-  it('Тест пустой строки', function() {
-    cy.visit('http://localhost:3000');
-    cy.get('a[href*="recursion"]').click();
-    cy.contains('Развернуть').should('be.disabled')
-  })
+import { reverseArr } from "./string.utils";
+const str = [
+  { 0: '1', elState: 'default' },
+  { 0: '2', elState: 'default' },
+  { 0: '3', elState: 'default' },
+  { 0: '4', elState: 'default' },
+]
 
-  it('Тест на разворот', function() {
-    cy.get('input').type('Привет');
-    cy.contains('Развернуть').click();
-    cy.clock();
-    cy.get('[data-testid="circle"]').within(($lis) => {
-      expect($lis).to.have.length(6)
-      expect($lis.eq(0)).to.contain('П')
-      cy.get($lis.eq(0), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-      expect($lis.eq(1)).to.contain('р')
-      cy.get($lis.eq(1), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(2)).to.contain('и')
-      cy.get($lis.eq(2), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(3)).to.contain('в')
-      cy.get($lis.eq(3), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(4)).to.contain('е')
-      cy.get($lis.eq(4), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(5)).to.contain('т')
-      cy.get($lis.eq(5), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-    })
+const str1 = [
+  { 0: 'h', elState: 'default' },
+  { 0: 'e', elState: 'default' },
+  { 0: 'l', elState: 'default' },
+  { 0: 'l', elState: 'default' },
+  { 0: 'o', elState: 'default' },
+]
 
-cy.tick(1000);
+const str2 = [
+  { 0: '1', elState: 'default' },
+]
 
-    cy.get('[data-testid="cyrcle"]').within(($lis) => {
-      expect($lis).to.have.length(6)
-      expect($lis.eq(0)).to.contain('т')
-      cy.get($lis.eq(0), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(1)).to.contain('р')
-      cy.get($lis.eq(1), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-      expect($lis.eq(2)).to.contain('и')
-      cy.get($lis.eq(2), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(3)).to.contain('в')
-      cy.get($lis.eq(3), {timeout: 300}).should('have.css', 'border-color', 'rgb(0, 50, 255)');
-      expect($lis.eq(4)).to.contain('е')
-      cy.get($lis.eq(4), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-      expect($lis.eq(5)).to.contain('П')
-      cy.get($lis.eq(5), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-    })
+const str3 = [
+  { 0: '', elState: 'default' },
+]
 
-    cy.tick(1000);
+const strRes = [
+  [
+    { 0: '1', elState: 'changing' },
+    { 0: '2', elState: 'default' },
+    { 0: '3', elState: 'default' },
+    { 0: '4', elState: 'changing' },
+  ],
+  [
+    { 0: '4', elState: 'modified' },
+    { 0: '2', elState: 'changing' },
+    { 0: '3', elState: 'changing' },
+    { 0: '1', elState: 'modified' },
+  ],
+  [
+    { 0: '4', elState: 'modified' },
+    { 0: '3', elState: 'modified' },
+    { 0: '2', elState: 'modified' },
+    { 0: '1', elState: 'modified' },
+  ]
+]
 
-    cy.get('[data-testid="cyrcle"]').within(($lis) => {
-      expect($lis).to.have.length(6)
-      expect($lis.eq(0)).to.contain('т')
-      cy.get($lis.eq(0), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(1)).to.contain('е')
-      cy.get($lis.eq(1), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(2)).to.contain('и')
-      cy.get($lis.eq(2), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-      expect($lis.eq(3)).to.contain('в')
-      cy.get($lis.eq(3), {timeout: 300}).should('have.css', 'border-color', 'rgb(210, 82, 225)');
-      expect($lis.eq(4)).to.contain('р')
-      cy.get($lis.eq(4), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(5)).to.contain('П')
-      cy.get($lis.eq(5), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-    })
+const str1Res = [
+  [
+    { 0: 'h', elState: 'changing' },
+    { 0: 'e', elState: 'default' },
+    { 0: 'l', elState: 'default' },
+    { 0: 'l', elState: 'default' },
+    { 0: 'o', elState: 'changing' },
+  ],
+  [
+    { 0: 'o', elState: 'modified' },
+    { 0: 'e', elState: 'changing' },
+    { 0: 'l', elState: 'default' },
+    { 0: 'l', elState: 'changing' },
+    { 0: 'h', elState: 'modified' },
+  ],
+  [
+    { 0: 'o', elState: 'modified' },
+    { 0: 'l', elState: 'modified' },
+    { 0: 'l', elState: 'modified' },
+    { 0: 'e', elState: 'modified' },
+    { 0: 'h', elState: 'modified' },
+  ]
+]
 
-    cy.tick(1000);
+const str2Res = [
+  [
+    { 0: '1', elState: 'changing' },
+  ],
+  [
+    { 0: '1', elState: 'modified' },
+  ],
+]
 
-    cy.get('[data-testid="cyrcle"]').within(($lis) => {
-      expect($lis).to.have.length(6)
-      expect($lis.eq(0)).to.contain('т')
-      cy.get($lis.eq(0), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(1)).to.contain('е')
-      cy.get($lis.eq(1), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(2)).to.contain('в')
-      cy.get($lis.eq(2), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(3)).to.contain('и')
-      cy.get($lis.eq(3), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(4)).to.contain('р')
-      cy.get($lis.eq(4), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-      expect($lis.eq(5)).to.contain('П')
-      cy.get($lis.eq(5), {timeout: 300}).should('have.css', 'border-color', 'rgb(127, 224, 81)');
-    })
+const str3Res = [
+  [
+    { 0: '', elState: 'changing' },
+  ],
+  [
+    { 0: '', elState: 'modified' },
+  ],
+]
 
-    cy.clock().then((clock) => {
-      clock.restore()
-    })
-  })
-
-  
-
+describe("Алгоритм разворота строки работает корректно", function () {
+it('Разворот строки с чётным количеством символов работает корректно', () => {
+  expect(reverseArr(str)).toEqual(strRes);
+});
+it('Разворот строки с нечётным количеством символов работает корректно', () => {
+  expect(reverseArr(str1)).toEqual(str1Res);
+}); 
+it('Разворот строки с одним символом работает корректно', () => {
+  expect(reverseArr(str2)).toEqual(str2Res);
+}); 
+it('Разворот пустой строки работает корректно', () => {
+  expect(reverseArr(str3)).toEqual(str3Res);
+}); 
 })

@@ -24,7 +24,6 @@ export const StringComponent: React.FC = () => {
     if (string) {
       setExpand(true);
     }
-
     const stringArr = reverseArr(newArrChar);
     let step = 0;
     let interval = setInterval(() => {
@@ -68,7 +67,7 @@ export const StringComponent: React.FC = () => {
       </form>
 
       {expand && (
-        <ul className={styles.circles} data-testid="cyrcle">
+        <ul className={styles.circles}>
           {string &&
             string.map((char: IArrChar, index: React.Key) => (
               <li key={index} className={styles.circle}>

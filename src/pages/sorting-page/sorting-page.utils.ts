@@ -48,6 +48,8 @@ export const selectionSort = (
       clearInterval(interval);
       setLoaderDescending(false);
       setLoaderAscending(false);
+      console.log(newArr)
+      return newArr // добавила для тестов
     }
   };
   recursion();
@@ -100,6 +102,7 @@ export const bubbleSort = (
       setArr([...newArr]);
       setLoaderDescending(false);
       setLoaderAscending(false);
+      return newArr
     }
   };
   recursion();
