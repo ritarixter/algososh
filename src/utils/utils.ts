@@ -1,3 +1,4 @@
+import { DELAY_IN_MS } from "../constants/delays";
 import { IArr } from "../types/types";
 
 export const swap = (arr: IArr[], index1: number, index2: number) => {
@@ -22,4 +23,12 @@ export const randomArr = () => {
   }
 
   return arr;
+};
+
+export const setDelay = (delay: number = DELAY_IN_MS): Promise<null> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(null);
+    }, delay);
+  });
 };

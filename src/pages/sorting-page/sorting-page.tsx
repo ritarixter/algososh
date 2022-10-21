@@ -28,7 +28,6 @@ export const SortingPage: React.FC = () => {
     arr.forEach((el) => {
       newArr.push({ ...el, elState: ElementStates.Default });
     });
-    console.log(newArr)
 
     if (!bool) {
    
