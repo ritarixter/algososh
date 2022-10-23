@@ -1,8 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { render, fireEvent, screen } from "@testing-library/react";
 import { Circle } from "./circle";
 import { ElementStates } from "../../../types/element-states";
+
 
 describe("Элемент Circle работает корректно", ()=>{
   it('Circle без буквы рендерится корректно', ()=>{

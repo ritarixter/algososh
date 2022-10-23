@@ -1,6 +1,11 @@
+const colorDefault = Cypress.env("colorDefault");
+const colorChanging = Cypress.env("colorChanging");
+const colorModifed = Cypress.env("colorModifed");
+const styleBorder = Cypress.env("styleBorder");
+
 describe("Cтраница Очередь работает корректно", function () {
   before(function () {
-    cy.visit("http://localhost:3000/queue");
+    cy.visit("queue");
   });
 
   it("Кнопка заблокирована когда input пуст", function () {
@@ -19,12 +24,16 @@ describe("Cтраница Очередь работает корректно", f
       expect($lis).to.have.length(7);
       expect($lis.eq(0)).to.contain("3");
       cy.get($lis.eq(0)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       cy.wait(500);
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
 
     cy.get("input").type("5");
@@ -32,14 +41,18 @@ describe("Cтраница Очередь работает корректно", f
     cy.wait(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       cy.get($lis.eq(1)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       expect($lis).to.have.length(7);
       expect($lis.eq(1)).to.contain("5");
       cy.wait(500);
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
 
     cy.get("input").type("10");
@@ -47,14 +60,18 @@ describe("Cтраница Очередь работает корректно", f
     cy.wait(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       cy.get($lis.eq(2)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       expect($lis).to.have.length(7);
       expect($lis.eq(2)).to.contain("10");
       cy.wait(500);
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -68,13 +85,17 @@ describe("Cтраница Очередь работает корректно", f
     cy.wait(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       cy.get($lis.eq(0)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       expect($lis.eq(0)).to.contain("");
       cy.wait(500);
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 

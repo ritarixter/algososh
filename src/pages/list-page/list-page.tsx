@@ -233,7 +233,7 @@ export const ListPage: React.FC = () => {
               isLimitText={true}
               type="text"
               placeholder="Введите значение"
-              onChange={(e: FormEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setinputValue(e.currentTarget.value)
               }
               value={inputValue}
@@ -316,7 +316,7 @@ export const ListPage: React.FC = () => {
               max={list.getSize() != 0 ? list.getSize() - 1 : 0}
               type="number"
               placeholder="Введите индекс"
-              onChange={(e: FormEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setinputIndex(e.currentTarget.value)
               }
               value={inputIndex}
@@ -364,7 +364,7 @@ export const ListPage: React.FC = () => {
       </form>
 
       <ul className={styles.circles}>
-        {arr.map((el: IList, index: React.Key) => (
+        {arr.map((el, index: React.Key) => (
           <li key={index} className={styles.circle} data-testid="item">
             <Circle
               letter={String(el.number)}

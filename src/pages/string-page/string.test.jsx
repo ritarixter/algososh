@@ -21,7 +21,6 @@ const str2 = [
 const str3 = [
   { 0: '', elState: 'default' },
 ]
-
 const strRes = [
   [
     { 0: '1', elState: 'changing' },

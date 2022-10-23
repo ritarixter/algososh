@@ -1,6 +1,11 @@
+const colorDefault = Cypress.env("colorDefault");
+const colorChanging = Cypress.env("colorChanging");
+const colorModifed = Cypress.env("colorModifed");
+const styleBorder = Cypress.env("styleBorder");
+
 describe("Cтраница Стек работает корректно", function () {
   before(function () {
-    cy.visit("http://localhost:3000/stack");
+    cy.visit("stack");
   });
 
   it("Кнопка заблокирована когда input пуст", function () {
@@ -18,40 +23,52 @@ describe("Cтраница Стек работает корректно", functio
       expect($lis).to.have.length(1);
       expect($lis.eq(0)).to.contain("3");
       cy.get($lis.eq(0)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       cy.wait(1000);
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
 
     cy.get("input").type("5");
     cy.contains("Добавить").click();
     cy.get('[data-testid="circle"]').within(($lis) => {
       cy.get($lis.eq(1)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       expect($lis).to.have.length(2);
       expect($lis.eq(1)).to.contain("5");
       cy.wait(1000);
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
 
     cy.get("input").type("10");
     cy.contains("Добавить").click();
     cy.get('[data-testid="circle"]').within(($lis) => {
       cy.get($lis.eq(2)).should(
-        "have.css",
-        "border-color",
-        "rgb(210, 82, 225)"
+        styleBorder.css,
+        styleBorder.border,
+        colorChanging
       );
       expect($lis).to.have.length(3);
       expect($lis.eq(2)).to.contain("10");
       cy.wait(1000);
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 

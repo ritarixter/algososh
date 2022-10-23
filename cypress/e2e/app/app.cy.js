@@ -1,12 +1,11 @@
-
-  it('Приложение поднялось', function() {
-    cy.visit('http://localhost:3000');
+it('Приложение поднялось', function() {
+    cy.visit('');
   });
 
 
 describe('Роутинг работает', function() {
   before(function() {
-    cy.visit('http://localhost:3000');
+    cy.visit('');
   });
 
   it('По умолчанию открылась страница со всеми алгоритмами', function() {

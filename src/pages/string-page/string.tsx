@@ -49,7 +49,7 @@ export const StringComponent: React.FC = () => {
         <div className={styles.input}>
           <Input
             maxLength={11}
-            onChange={(e: FormEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setinputValue(e.currentTarget.value)
             }
             value={inputValue}
@@ -69,7 +69,7 @@ export const StringComponent: React.FC = () => {
       {expand && (
         <ul className={styles.circles}>
           {string &&
-            string.map((char: IArrChar, index: React.Key) => (
+            string.map((char, index: React.Key) => (
               <li key={index} className={styles.circle}>
                 <Circle letter={char[0]} state={char.elState} />
               </li>

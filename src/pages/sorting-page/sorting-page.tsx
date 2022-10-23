@@ -68,7 +68,7 @@ export const SortingPage: React.FC = () => {
             extraClass="mr-20"
             checked={!bool}
             name="radio"
-            onChange={() => {
+            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
               setBool(false);
             }}
             disabled={loaderDescending || loaderAscending}
@@ -103,7 +103,7 @@ export const SortingPage: React.FC = () => {
           </div>
         </div>
         <ul className={styles.array_container}>
-          {arr.map((el: IArr, index: React.Key) => (
+          {arr.map((el, index: React.Key) => (
             <li className={styles.array_list} key={index}>
               <Column index={el.number} state={el.elState} />
             </li>

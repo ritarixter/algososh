@@ -106,3 +106,47 @@ export const bubbleSort = (
   };
   recursion();
 };
+
+export const selectionSorting = (  arr: number[],
+  minToMax: boolean,
+  setLoaderDescending: (arg: boolean) => void,
+  setLoaderAscending: (arg: boolean) => void,
+  setArr: (arg: number[]) => void) => {
+    let newArr:number[] = []
+    setArr([...arr]);
+    setLoaderDescending(false);
+    setLoaderAscending(false);
+    if(!minToMax){
+      newArr = arr.sort(function (a, b) {
+        return b - a;
+    });
+    }
+    else{
+      newArr = arr.sort(function (a, b) {
+        return a - b;
+    })
+  }
+  return newArr
+}
+
+export const bubbleSorting = (  arr: number[],
+  minToMax: boolean,
+  setLoaderDescending: (arg: boolean) => void,
+  setLoaderAscending: (arg: boolean) => void,
+  setArr: (arg: number[]) => void) => {
+    let newArr:number[] = []
+    setArr([...arr]);
+    setLoaderDescending(false);
+    setLoaderAscending(false);
+    if(!minToMax){
+      newArr = arr.sort(function (a, b) {
+        return b - a;
+    });
+    }
+    else{
+      newArr = arr.sort(function (a, b) {
+        return a - b;
+    })
+  }
+  return newArr
+}

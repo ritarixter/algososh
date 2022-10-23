@@ -4,6 +4,7 @@ import renderer from "react-test-renderer";
 import { render, fireEvent, screen } from "@testing-library/react";
 
 describe("Кнопка рендериться корректно", () => {
+  
 it('Кнопка с текстом рендерится без ошибок', () => {
   const tree = renderer
     .create(<Button text="Развернуть" />).toJSON();

@@ -1,6 +1,11 @@
+const colorDefault = Cypress.env("colorDefault");
+const colorChanging = Cypress.env("colorChanging");
+const colorModifed = Cypress.env("colorModifed");
+const styleBorder = Cypress.env("styleBorder");
+
 describe("Cтраница Связный список работает корректно", function () {
   before(function () {
-    cy.visit("http://localhost:3000/list");
+    cy.visit("list");
   });
 
   it("Кнопки заблокированы когда input text пуст", function () {
@@ -27,13 +32,29 @@ describe("Cтраница Связный список работает корр�
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(4);
       expect($lis.eq(0)).to.contain("0");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("34");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("8");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("1");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -42,30 +63,50 @@ describe("Cтраница Связный список работает корр�
     cy.get('[data-testid="inputText"]').type("6");
     cy.contains("Добавить в head").click();
     cy.get('[data-testid="circle"]').should(
-      "have.css",
-      "border-color",
-      "rgb(210, 82, 225)"
+      styleBorder.css,
+      styleBorder.border,
+      colorChanging
     );
     cy.tick(500);
     cy.get('[data-testid="circle"]:first').should(
-      "have.css",
-      "border-color",
-      "rgb(127, 224, 81)"
+      styleBorder.css,
+      styleBorder.border,
+      colorModifed
     );
     cy.get('[data-testid="item"]').contains("head");
     cy.tick(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(5);
       expect($lis.eq(0)).to.contain("6");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("0");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("34");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("8");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(4)).to.contain("1");
-      cy.get($lis.eq(4)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(4)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -76,25 +117,49 @@ describe("Cтраница Связный список работает корр�
     cy.tick(500);
     cy.get('[data-testid="item"]').contains("tail");
     cy.get('[data-testid="circle"]:last').should(
-      "have.css",
-      "border-color",
-      "rgb(127, 224, 81)"
+      styleBorder.css,
+      styleBorder.border,
+      colorModifed
     );
     cy.tick(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(6);
       expect($lis.eq(0)).to.contain("6");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("0");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("34");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("8");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(4)).to.contain("1");
-      cy.get($lis.eq(4)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(4)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(5)).to.contain("11");
-      cy.get($lis.eq(5)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(5)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -105,35 +170,63 @@ describe("Cтраница Связный список работает корр�
     cy.contains("Добавить по индексу").click();
     cy.tick(500);
     cy.get('[data-testid="circle"]:first').should(
-      "have.css",
-      "border-color",
-      "rgb(210, 82, 225)"
+      styleBorder.css,
+      styleBorder.border,
+      colorChanging
     );
     cy.tick(500);
     cy.get('[data-testid="circle"]')
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)");
+      .should(styleBorder.css, styleBorder.border, colorChanging);
     cy.tick(500);
     cy.get('[data-testid="circle"]')
       .eq(1)
-      .should("have.css", "border-color", "rgb(127, 224, 81)");
+      .should(styleBorder.css, styleBorder.border, colorModifed);
     cy.tick(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(7);
       expect($lis.eq(0)).to.contain("6");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("9");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("0");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("34");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(4)).to.contain("8");
-      cy.get($lis.eq(4)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(4)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(5)).to.contain("1");
-      cy.get($lis.eq(5)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(5)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(6)).to.contain("11");
-      cy.get($lis.eq(6)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(6)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -141,9 +234,9 @@ describe("Cтраница Связный список работает корр�
     cy.clock();
     cy.contains("Удалить из head").click();
     cy.get('[data-testid="circle"]:first').should(
-      "have.css",
-      "border-color",
-      "rgb(210, 82, 225)"
+      styleBorder.css,
+      styleBorder.border,
+      colorChanging
     );
     cy.tick(500);
     cy.get('[data-testid="circle"]').within(($lis) => {
@@ -151,17 +244,41 @@ describe("Cтраница Связный список работает корр�
       expect($lis.eq(0)).to.contain("");
       cy.tick(500);
       expect($lis.eq(0)).to.contain("9");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("0");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("34");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("8");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(4)).to.contain("1");
-      cy.get($lis.eq(4)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(4)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(5)).to.contain("11");
-      cy.get($lis.eq(5)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(5)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -170,20 +287,40 @@ describe("Cтраница Связный список работает корр�
     cy.contains("Удалить из tail").click();
     cy.get('[data-testid="circle"]')
       .eq(5)
-      .should("have.css", "border-color", "rgb(210, 82, 225)");
+      .should(styleBorder.css, styleBorder.border, colorChanging);
     cy.tick(1000);
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(5);
       expect($lis.eq(0)).to.contain("9");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("0");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("34");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("8");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(4)).to.contain("1");
-      cy.get($lis.eq(4)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(4)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 
@@ -193,25 +330,41 @@ describe("Cтраница Связный список работает корр�
     cy.contains("Удалить по индексу").click();
     cy.tick(500);
     cy.get('[data-testid="circle"]:first').should(
-      "have.css",
-      "border-color",
-      "rgb(210, 82, 225)"
+      styleBorder.css,
+      styleBorder.border,
+      colorChanging
     );
     cy.tick(500);
     cy.get('[data-testid="circle"]')
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)");
+      .should(styleBorder.css, styleBorder.border, colorChanging);
     cy.tick(1000);
     cy.get('[data-testid="circle"]').within(($lis) => {
       expect($lis).to.have.length(4);
       expect($lis.eq(0)).to.contain("9");
-      cy.get($lis.eq(0)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(0)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(1)).to.contain("34");
-      cy.get($lis.eq(1)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(1)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(2)).to.contain("8");
-      cy.get($lis.eq(2)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(2)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
       expect($lis.eq(3)).to.contain("1");
-      cy.get($lis.eq(3)).should("have.css", "border-color", "rgb(0, 50, 255)");
+      cy.get($lis.eq(3)).should(
+        styleBorder.css,
+        styleBorder.border,
+        colorDefault
+      );
     });
   });
 });

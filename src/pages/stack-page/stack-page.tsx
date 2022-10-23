@@ -46,7 +46,7 @@ export const StackPage: React.FC = () => {
             isLimitText={true}
             type="text"
             placeholder="Введите значение"
-            onChange={(e: FormEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setinputValue(e.currentTarget.value)
             }
             value={inputValue}
@@ -79,7 +79,7 @@ export const StackPage: React.FC = () => {
       </form>
 
       <ul className={styles.circles}>
-        {stackArr.map((stackEl: IArr, index: React.Key) => (
+        {stackArr.map((stackEl, index: React.Key) => (
           <li key={index} className={styles.circle}>
             <Circle
               letter={String(stackEl.number)}

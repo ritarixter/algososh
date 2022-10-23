@@ -1,6 +1,6 @@
 describe('Cтраница Фибоначчи работает корректно', function() {
   before(function() {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('fibonacci');
   
   });
 

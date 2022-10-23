@@ -9,7 +9,7 @@ export const swap = (arr: IArr[], index1: number, index2: number) => {
 };
 
 export const randomArr = () => {
-  let arr: any[] = [];
+  let arr: IArr[] = [];
   const max = 100;
   const min = 0;
   const minLength = 3;
@@ -23,5 +23,13 @@ export const randomArr = () => {
   }
 
   return arr;
+};
+
+export const setDelay = (delay: number = DELAY_IN_MS): Promise<null> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(null);
+    }, delay);
+  });
 };
 
