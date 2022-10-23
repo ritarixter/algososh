@@ -20,17 +20,3 @@ export interface IList {
   elState?: ElementStates;
   isProgressing?: Boolean;
 }
-
-export interface IButtonsStatusSort {
-  newArray: {
-    disabled: boolean;
-  };
-  ascendingSort: {
-    disabled: boolean;
-    loading: boolean;
-  };
-  descendingSort: {
-    disabled: boolean;
-    loading: boolean;
-  };
-}

@@ -1,152 +1,110 @@
-import { DELAY_IN_MS } from "../../constants/delays";
+import { Dispatch, SetStateAction } from "react";
+import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { IArr } from "../../types/types";
-import { swap } from "../../utils/utils";
+import { setDelay, swap } from "../../utils/utils";
 
-export const selectionSort = (
+export const selectionSort = async (
   newArr: IArr[],
   minToMax: boolean,
-  setLoaderDescending: (arg: boolean) => void,
-  setLoaderAscending: (arg: boolean) => void,
-  setArr: (arg: IArr[]) => void
+  setLoaderDescending: Dispatch<SetStateAction<boolean>>,
+  setLoaderAscending: Dispatch<SetStateAction<boolean>>,
+  setArr: Dispatch<SetStateAction<Array<IArr>>>
 ) => {
   let n = newArr.length;
-  let i = 0;
+  if (n === 0) {
+    setArr([]);
+    return;
+  }
 
-  const recursion = () => {
+  if (n === 1) {
+    newArr[0].elState = ElementStates.Changing;
+    setArr([...newArr]);
+    await setDelay(SHORT_DELAY_IN_MS);
+    newArr[0].elState = ElementStates.Modified;
+    setArr([...newArr]);
+    return;
+  }
+  for (let i = 0; i < n - 1; i++) {
     let min = i;
-    let j = i + 1;
-
-    let interval = setInterval(() => {
-      if (n <= j) {
-        newArr[j - 1].elState = ElementStates.Default;
-        newArr[i].elState = ElementStates.Modified;
-        if (min != i) {
-          swap(newArr, i, min);
-          setArr([...newArr]);
-        }
-        clearInterval(interval);
-        i++;
-        recursion();
-      } else {
-        newArr[j - 1].elState = ElementStates.Default;
-        newArr[i].elState = ElementStates.Changing;
-        newArr[j].elState = ElementStates.Changing;
-        setArr([...newArr]);
-        if (
-          minToMax
-            ? newArr[j].number > newArr[min].number
-            : newArr[j].number < newArr[min].number
-        ) {
-          min = j;
-        }
-        j++;
+    newArr[n - 1].elState = ElementStates.Default;
+    for (let j = i + 1; j < n; j++) {
+      await setDelay(SHORT_DELAY_IN_MS);
+      newArr[j - 1].elState = ElementStates.Default;
+      newArr[i].elState = ElementStates.Changing;
+      newArr[j].elState = ElementStates.Changing;
+      setArr([...newArr]);
+      if (
+        minToMax
+          ? newArr[j].number > newArr[min].number
+          : newArr[j].number < newArr[min].number
+      ) {
+        min = j;
       }
-    }, DELAY_IN_MS);
-
-    if (i >= n) {
-      clearInterval(interval);
-      setLoaderDescending(false);
-      setLoaderAscending(false);
     }
-  };
-  recursion();
+    newArr[i].elState = ElementStates.Modified;
+    if (min != i) {
+      swap(newArr, i, min);
+      setArr([...newArr]);
+    }
+  }
+
+  newArr[n - 1].elState = ElementStates.Modified;
+  setArr([...newArr]);
+  setLoaderDescending(false);
+  setLoaderAscending(false);
 };
 
-export const bubbleSort = (
+export const bubbleSort = async (
   newArr: IArr[],
   minToMax: boolean,
-  setLoaderDescending: (arg: boolean) => void,
-  setLoaderAscending: (arg: boolean) => void,
-  setArr: (arg: IArr[]) => void
+  setLoaderDescending: Dispatch<SetStateAction<boolean>>,
+  setLoaderAscending: Dispatch<SetStateAction<boolean>>,
+  setArr: Dispatch<SetStateAction<Array<IArr>>>
 ) => {
+  const n = newArr.length;
+  if (n === 0) {
+    setArr([]);
+    return;
+  }
 
-  let i = -1;
-  const { length } = newArr;
-  const recursion = () => {
-    i++;
-    let j = i + 1;
-    let interval = setInterval(() => {
-      if (j >= length) {
-        clearInterval(interval);
-        newArr[i].elState = ElementStates.Modified;
-        newArr[j - 1].elState = ElementStates.Default;
+  if (n === 1) {
+    newArr[0].elState = ElementStates.Changing;
+    setArr([...newArr]);
+    await setDelay(SHORT_DELAY_IN_MS);
+    newArr[0].elState = ElementStates.Modified;
+    setArr([...newArr]);
+    return;
+  }
+  for (let i = 0; i < n - 1; i++) {
+    newArr[n - 1].elState = ElementStates.Default;
+    for (let j = i + 1; j < n; j++) {
+      await setDelay(SHORT_DELAY_IN_MS);
+      if (j >= 2 && newArr[j - 2].elState != ElementStates.Modified) {
         newArr[j - 2].elState = ElementStates.Default;
-        recursion();
-      } else {
-        if (j >= 2 && newArr[j - 2].elState != ElementStates.Modified) {
-          newArr[j - 2].elState = ElementStates.Default;
-        }
-
-        newArr[j].elState = ElementStates.Changing;
-        newArr[j - 1].elState = ElementStates.Changing;
-
-        if (
-          minToMax
-            ? newArr[i].number < newArr[j].number
-            : newArr[i].number > newArr[j].number
-        ) {
-          swap(newArr, i, j);
-        }
-        j++;
-        setArr([...newArr]);
       }
-    }, DELAY_IN_MS);
 
-    if (i >= length - 1) {
-      clearInterval(interval);
-      newArr.forEach((el) => {
-        el.elState = ElementStates.Modified;
-      });
+      newArr[j].elState = ElementStates.Changing;
+      newArr[j - 1].elState = ElementStates.Changing;
+
+      if (
+        minToMax
+          ? newArr[i].number < newArr[j].number
+          : newArr[i].number > newArr[j].number
+      ) {
+        swap(newArr, i, j);
+      }
       setArr([...newArr]);
-      setLoaderDescending(false);
-      setLoaderAscending(false);
-      return newArr
     }
-  };
-  recursion();
+    newArr[i].elState = ElementStates.Modified;
+    newArr[n - 2].elState = ElementStates.Default;
+    newArr[n - 3].elState = ElementStates.Default;
+  }
+  newArr.forEach((el) => {
+    el.elState = ElementStates.Modified;
+  });
+  setArr([...newArr]);
+  setLoaderDescending(false);
+  setLoaderAscending(false);
 };
 
-export const selectionSorting = (  arr: number[],
-  minToMax: boolean,
-  setLoaderDescending: (arg: boolean) => void,
-  setLoaderAscending: (arg: boolean) => void,
-  setArr: (arg: number[]) => void) => {
-    let newArr:number[] = []
-    setArr([...arr]);
-    setLoaderDescending(false);
-    setLoaderAscending(false);
-    if(!minToMax){
-      newArr = arr.sort(function (a, b) {
-        return b - a;
-    });
-    }
-    else{
-      newArr = arr.sort(function (a, b) {
-        return a - b;
-    })
-  }
-  return newArr
-}
-
-export const bubbleSorting = (  arr: number[],
-  minToMax: boolean,
-  setLoaderDescending: (arg: boolean) => void,
-  setLoaderAscending: (arg: boolean) => void,
-  setArr: (arg: number[]) => void) => {
-    let newArr:number[] = []
-    setArr([...arr]);
-    setLoaderDescending(false);
-    setLoaderAscending(false);
-    if(!minToMax){
-      newArr = arr.sort(function (a, b) {
-        return b - a;
-    });
-    }
-    else{
-      newArr = arr.sort(function (a, b) {
-        return a - b;
-    })
-  }
-  return newArr
-}

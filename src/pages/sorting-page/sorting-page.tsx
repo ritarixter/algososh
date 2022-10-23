@@ -12,12 +12,12 @@ import { randomArr } from "../../utils/utils";
 import { bubbleSort, selectionSort } from "./sorting-page.utils";
 
 export const SortingPage: React.FC = () => {
-  const [arr, setArr] = useState<IArr[]>([]);
+  const [arr, setArr] = useState<Array<IArr>>(randomArr());
   const [bool, setBool] = useState<boolean>(true);
   const [loaderDescending, setLoaderDescending] = useState<boolean>(false);
   const [loaderAscending, setLoaderAscending] = useState<boolean>(false);
 
-  const onClickButton = (maxToMin: boolean) => {
+  const onClickButton = async (maxToMin: boolean) => {
     if (maxToMin) {
       setLoaderDescending(true);
     } else {
@@ -30,8 +30,7 @@ export const SortingPage: React.FC = () => {
     });
 
     if (!bool) {
-   
-      bubbleSort(
+      await bubbleSort(
         newArr,
         maxToMin,
         setLoaderDescending,
@@ -39,7 +38,7 @@ export const SortingPage: React.FC = () => {
         setArr
       );
     } else {
-      selectionSort(
+      await selectionSort(
         newArr,
         maxToMin,
         setLoaderDescending,
@@ -68,7 +67,7 @@ export const SortingPage: React.FC = () => {
             extraClass="mr-20"
             checked={!bool}
             name="radio"
-            onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={() => {
               setBool(false);
             }}
             disabled={loaderDescending || loaderAscending}

@@ -37,4 +37,5 @@ it('Нажатие на кнопку проиходит без ошибок', ()
     fireEvent.click(button);
     expect(onClick).toHaveBeenCalled();
 }); 
+
 })
