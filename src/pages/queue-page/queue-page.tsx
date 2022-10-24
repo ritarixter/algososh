@@ -76,7 +76,7 @@ export const QueuePage: React.FC = () => {
             isLimitText={true}
             type="text"
             placeholder="Введите значение"
-            onChange={(e: FormEvent<HTMLInputElement>) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setinputValue(e.currentTarget.value)
             }
             value={inputValue}
@@ -108,7 +108,7 @@ export const QueuePage: React.FC = () => {
       </form>
 
       <ul className={styles.circles}>
-        {queueArr.map((stackEl: IQueue, index: React.Key | number) => (
+        {queueArr.map((stackEl, index: React.Key | number) => (
           <li key={index} className={styles.circle}>
             <Circle
               letter={stackEl.number != "" ? String(stackEl.number) : ""}

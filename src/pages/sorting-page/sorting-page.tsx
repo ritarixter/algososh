@@ -12,12 +12,12 @@ import { randomArr } from "../../utils/utils";
 import { bubbleSort, selectionSort } from "./sorting-page.utils";
 
 export const SortingPage: React.FC = () => {
-  const [arr, setArr] = useState<IArr[]>([]);
+  const [arr, setArr] = useState<Array<IArr>>(randomArr());
   const [bool, setBool] = useState<boolean>(true);
   const [loaderDescending, setLoaderDescending] = useState<boolean>(false);
   const [loaderAscending, setLoaderAscending] = useState<boolean>(false);
 
-  const onClickButton = (maxToMin: boolean) => {
+  const onClickButton = async (maxToMin: boolean) => {
     if (maxToMin) {
       setLoaderDescending(true);
     } else {
@@ -30,7 +30,7 @@ export const SortingPage: React.FC = () => {
     });
 
     if (!bool) {
-      bubbleSort(
+      await bubbleSort(
         newArr,
         maxToMin,
         setLoaderDescending,
@@ -38,7 +38,7 @@ export const SortingPage: React.FC = () => {
         setArr
       );
     } else {
-      selectionSort(
+      await selectionSort(
         newArr,
         maxToMin,
         setLoaderDescending,
@@ -102,7 +102,7 @@ export const SortingPage: React.FC = () => {
           </div>
         </div>
         <ul className={styles.array_container}>
-          {arr.map((el: IArr, index: React.Key) => (
+          {arr.map((el, index: React.Key) => (
             <li className={styles.array_list} key={index}>
               <Column index={el.number} state={el.elState} />
             </li>

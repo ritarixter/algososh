@@ -228,11 +228,12 @@ export const ListPage: React.FC = () => {
         <div className={styles.container_line}>
           <div className={styles.input}>
             <Input
+            data-testid="inputText"
               maxLength={4}
               isLimitText={true}
               type="text"
               placeholder="Введите значение"
-              onChange={(e: FormEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setinputValue(e.currentTarget.value)
               }
               value={inputValue}
@@ -310,11 +311,12 @@ export const ListPage: React.FC = () => {
         <div className={styles.container_line}>
           <div className={styles.input}>
             <Input
+              data-testid="inputIndex"
               min={0}
               max={list.getSize() != 0 ? list.getSize() - 1 : 0}
               type="number"
               placeholder="Введите индекс"
-              onChange={(e: FormEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setinputIndex(e.currentTarget.value)
               }
               value={inputIndex}
@@ -362,11 +364,12 @@ export const ListPage: React.FC = () => {
       </form>
 
       <ul className={styles.circles}>
-        {arr.map((el: IList, index: React.Key) => (
-          <li key={index} className={styles.circle}>
+        {arr.map((el, index: React.Key) => (
+          <li key={index} className={styles.circle} data-testid="item">
             <Circle
               letter={String(el.number)}
               state={el.elState}
+             
               head={
                 el.isProgressing ? (
                   <Circle

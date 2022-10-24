@@ -55,7 +55,7 @@ export const FibonacciPage: React.FC = () => {
         </div>
         <Button
           isLoader={loader}
-          disabled={!inputValue}
+          disabled={!inputValue || Number(inputValue) > 19}
           text="Рассчитать"
           extraClass={`${inputValue && "text_color_secondary"}`}
           type="submit"
@@ -63,7 +63,7 @@ export const FibonacciPage: React.FC = () => {
       </form>
 
       <ul className={styles.circles}>
-        {arrFib?.map((char: number, index: React.Key | string) => (
+        {arrFib?.map((char, index: React.Key | string) => (
             <li key={index} className={styles.circle}>
               <Circle letter={String(char)} tail={String(index)} />
             </li>
